@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -227,6 +227,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -566,9 +567,22 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
-        -- rust_analyzer = {},
+        awk_ls = {},
+        gopls = {},
+        pyright = {},
+        rust_analyzer = {},
+        terraformls = {},
+        bashls = {},
+        dockerls = {},
+        dotls = {},
+        helm_ls = {},
+        jsonls = {},
+        jinja_lsp = {},
+        jsonnet_ls = {},
+        autotools_ls = {},
+        marksman = {},
+        taplo = {},
+        yamlls = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -607,6 +621,29 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'actionlint', -- GitHub Actions workflow files
+        'ansible-lint',
+        'biome', -- Json
+        'cfn-lint',
+        'checkmake', -- linting and checking Makefiles
+        'codespell', -- Spelling
+        'commitlint', -- checks if your commit messages meet the conventional commit format
+        'doctoc', -- generating a markdown TOC (table of contents)
+        'fixjson',
+        'hadolint',
+        'jsonlint',
+        'jsonnetfmt',
+        'kcl',
+        'markdownlint-cli2',
+        'misspell',
+        'ruff',
+        'shellcheck',
+        'shellharden', -- he corrective bash syntax highlighter
+        'shfmt', -- sh/bash/mksh
+        'tflint',
+        'yamlfix',
+        'yamlfmt',
+        'yamllint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -653,11 +690,11 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
+        javascript = { { 'prettierd', 'prettier' } },
       },
     },
   },
@@ -781,6 +818,8 @@ require('lazy').setup({
     'folke/tokyonight.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
+      -- Enable True color
+      vim.o.termguicolors = true
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
