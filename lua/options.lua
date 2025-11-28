@@ -15,7 +15,7 @@ vim.opt.mouse = 'a'
 vim.opt.showmode = false
 
 -- Don't wrap line
-vim.wo.wrap = false
+vim.opt.wrap = false
 
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
