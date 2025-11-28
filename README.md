@@ -16,10 +16,11 @@ To ensure a smooth experience, we need to install not just the editor, but the e
 
 * **Neovim (v0.9+):** The editor core.  
 * **Ripgrep (rg) & fd:** Extremely fast search tools used by Telescope for fuzzy finding files and text.  
-* **Build Tools (gcc, make):** Required to compile C-based plugins (like telescope-fzf-native) and TreeSitter parsers.  
+* **Build Tools (gcc, make):** Required to compile C-based plugins (like telescope-fzf-native) and TreeSitter parsers.
+* **Language Runtimes (node, go):** Required for Mason to install language servers (LSP) like `ts_ls` or `gopls`.  
 * **Nerd Fonts:** Patched fonts that include icon glyphs for the UI (status lines, file tree icons, etc.).
 
-### **🍎 macOS (Homebrew) \- Daily Driver**
+### **🍎 macOS (Homebrew) - Daily Driver**
 
 Prerequisites: Ensure [Homebrew](https://brew.sh/) is installed and updated (brew update).
 ```bash
@@ -28,8 +29,9 @@ Prerequisites: Ensure [Homebrew](https://brew.sh/) is installed and updated (bre
 #   'git'          : Version control and plugin management  
 #   'make', 'gcc'  : Compilers for native extensions and TreeSitter  
 #   'unzip'        : Required for extracting Mason packages/Language Servers  
-#   'ripgrep', 'fd': High-performance search backends for Telescope  
-brew install neovim git make gcc unzip ripgrep fd
+#   'ripgrep', 'fd': High-performance search backends for Telescope
+#   'node', 'go'   : Runtimes for Language Servers (LSP)
+brew install neovim git make gcc unzip ripgrep fd node go
 
 # 2. Install JetBrains Mono Nerd Font 
 brew install --cask font-jetbrains-mono-nerd-font
@@ -44,8 +46,9 @@ Arch Linux provides the latest packages by default, making the setup very clean.
 ```bash
 # 1. Install Neovim, tools, and font  
 #   'base-devel'             : Includes gcc, make, and other build essentials  
+#   'nodejs', 'npm', 'go'    : Runtimes for LSP
 #   'ttf-jetbrains-mono-nerd': The official Arch package for the font  
-sudo pacman -S --needed --noconfirm neovim git base-devel unzip ripgrep fd ttf-jetbrains-mono-nerd
+sudo pacman -S --needed --noconfirm neovim git base-devel unzip ripgrep fd ttf-jetbrains-mono-nerd nodejs npm go
 
 # 2. Verify installation (Optional)  
 nvim --version
@@ -61,9 +64,10 @@ sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
 
 # 2. Install Neovim and tools  
-# Note: 'fd' is package named 'fd-find' on Ubuntu/Debian to avoid name collision.  
+# Note: 'fd' is package named 'fd-find' on Ubuntu/Debian to avoid name collision. 
+# 'nodejs', 'npm', 'golang-go': Runtimes for LSP 
 # 'xclip': Required for system clipboard integration on X11  
-sudo apt install -y neovim git make gcc unzip ripgrep fd-find xclip
+sudo apt install -y neovim git make gcc unzip ripgrep fd-find xclip nodejs npm golang-go
 
 # 3. Install JetBrains Mono Nerd Font manually  
 # Since standard repos don't always have the latest Nerd Fonts, we fetch it directly.  
