@@ -12,7 +12,6 @@ return {
           dockerfile = { 'hadolint' },
           go = { 'golangci_lint_ls' },
           jsonnet = { "jsonlint" },
-          jsonlint = { "jsonlint" },
           json = { "jsonlint" },
           yaml = { "yamllint" },
           vim = { "vint" },
