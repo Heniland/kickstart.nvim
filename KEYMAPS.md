@@ -53,7 +53,7 @@ Managed by **nvim-lspconfig**.
 | Key | Description | Mode | Defined In |
 | --- | --- | --- | --- |
 | `gd` | [G]oto [D]efinition | Normal | `lua/custom/plugins/lspconfig.lua` |
-| `gR` | [G]oto [R]eferences | Normal | `lua/custom/plugins/lspconfig.lua` |
+| `gr` | [G]oto [R]eferences | Normal | `lua/custom/plugins/lspconfig.lua` |
 | `gI` | [G]oto [I]mplementation | Normal | `lua/custom/plugins/lspconfig.lua` |
 | `gD` | [G]oto [D]eclaration | Normal | `lua/custom/plugins/lspconfig.lua` |
 | `<leader>D` | Type [D]efinition | Normal | `lua/custom/plugins/lspconfig.lua` |
