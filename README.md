@@ -1,241 +1,66 @@
-# kickstart.nvim
+Personal Kickstart.nvimA personalized Neovim configuration based on the excellent kickstart.nvim project. This repository serves as my daily driver, designed to be a robust, efficient, and easily maintainable editing environment.Branch: hanoch (My active development branch)Font: JetBrains Mono Nerd Font (Required for UI icons and glyphs)Goal: A "starting point" configuration that is small, single-file, thoroughly documented, and ready for professional development work immediately after cloning. Unlike pre-packaged "distributions," this config is transparent: meant to be read, understood, and modified by you.Quick InstallationThe installation process is automated as much as possible. Choose your operating system below to install all necessary dependencies (Neovim, high-performance search tools, build utilities, and patched fonts) and clone the configuration.1. Install Dependencies & FontTo ensure a smooth experience, we need to install not just the editor, but the ecosystem around it. This includes:Neovim (v0.9+): The editor core.Ripgrep (rg) & fd: Extremely fast search tools used by Telescope for fuzzy finding files and text.Build Tools (gcc, make): Required to compile C-based plugins (like telescope-fzf-native) and TreeSitter parsers.Nerd Fonts: Patched fonts that include icon glyphs for the UI (status lines, file tree icons, etc.).🍎 macOS (Homebrew) - Daily DriverPrerequisites: Ensure Homebrew is installed and updated (brew update).# 1. Install Neovim and essential tools
+# 'neovim': The editor
+# 'git': Version control and plugin management
+# 'make', 'gcc': Compilers for native extensions and TreeSitter
+# 'unzip': Required for extracting Mason packages/Language Servers
+# 'ripgrep', 'fd': High-performance search backends for Telescope
+brew install neovim git make gcc unzip ripgrep fd
 
-## Introduction
+# 2. Install JetBrains Mono Nerd Font
+# This installs the font via Homebrew Cask to ensure it's available system-wide.
+brew install --cask font-jetbrains-mono-nerd-font
 
-A starting point for Neovim that is:
+# 3. Verify installation (Optional)
+nvim --version && rg --version
+🐧 Arch Linux (Pacman)Arch Linux provides the latest packages by default, making the setup very clean.# 1. Install Neovim, tools, and font
+# 'base-devel': Includes gcc, make, and other build essentials
+# 'ttf-jetbrains-mono-nerd': The official Arch package for the font
+sudo pacman -S --needed --noconfirm neovim git base-devel unzip ripgrep fd ttf-jetbrains-mono-nerd
 
-* Small
-* Single-file
-* Completely Documented
-
-**NOT** a Neovim distribution, but instead a starting point for your configuration.
-
-## Installation
-
-### Install Neovim
-
-Kickstart.nvim targets *only* the latest
-['stable'](https://github.com/neovim/neovim/releases/tag/stable) and latest
-['nightly'](https://github.com/neovim/neovim/releases/tag/nightly) of Neovim.
-If you are experiencing issues, please make sure you have the latest versions.
-
-### Install External Dependencies
-
-External Requirements:
-- Basic utils: `git`, `make`, `unzip`, C Compiler (`gcc`)
-- [ripgrep](https://github.com/BurntSushi/ripgrep#installation)
-- Clipboard tool (xclip/xsel/win32yank or other depending on the platform)
-- A [Nerd Font](https://www.nerdfonts.com/): optional, provides various icons
-  - if you have it set `vim.g.have_nerd_font` in `init.lua` to true
-- Emoji fonts 
-  - Ubuntu: `sudo apt install fonts-noto-color-emoji`
-  - Arch: `sudo pacman -S noto-fonts-emoji`
-- Language Setup:
-  - If you want to write Typescript, you need `npm`
-  - If you want to write Golang, you will need `go`
-  - etc.
-
-> **NOTE**
-> See [Install Recipes](#Install-Recipes) for additional Windows and Linux specific notes
-> and quick install snippets
-
-### Install Kickstart
-
-> **NOTE**
-> [Backup](#FAQ) your previous configuration (if any exists)
-
-Neovim's configurations are located under the following paths, depending on your OS:
-
-| OS | PATH |
-| :- | :--- |
-| Linux, MacOS | `$XDG_CONFIG_HOME/nvim`, `~/.config/nvim` |
-| Windows (cmd)| `%localappdata%\nvim\` |
-| Windows (powershell)| `$env:LOCALAPPDATA\nvim\` |
-
-#### Recommended Step
-
-[Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) this repo
-so that you have your own copy that you can modify, then install by cloning the
-fork to your machine using one of the commands below, depending on your OS.
-
-> **NOTE**
-> Your fork's URL will be something like this:
-> `https://github.com/<your_github_username>/kickstart.nvim.git`
-
-You likely want to remove `lazy-lock.json` from your fork's `.gitignore` file
-too - it's ignored in the kickstart repo to make maintenance easier, but it's
-[recommended to track it in version control](https://lazy.folke.io/usage/lockfile).
-
-#### Clone kickstart.nvim
-> **NOTE**
-> If following the recommended step above (i.e., forking the repo), replace
-> `nvim-lua` with `<your_github_username>` in the commands below
-
-<details><summary> Linux and Mac </summary>
-
-```sh
-git clone https://github.com/Heniland/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
-```
-
-</details>
-
-<details><summary> Windows </summary>
-
-If you're using `cmd.exe`:
-
-```
-git clone https://github.com/nvim-lua/kickstart.nvim.git "%localappdata%\nvim"
-```
-
-If you're using `powershell.exe`
-
-```
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${env:LOCALAPPDATA}\nvim"
-```
-
-</details>
-
-### Post Installation
-
-Start Neovim
-
-```sh
-nvim
-```
-
-That's it! Lazy will install all the plugins you have. Use `:Lazy` to view
-the current plugin status. Hit `q` to close the window.
-
-#### Read The Friendly Documentation
-
-Read through the `init.lua` file in your configuration folder for more
-information about extending and exploring Neovim. That also includes
-examples of adding popularly requested plugins.
-
-> [!NOTE]
-> For more information about a particular plugin check its repository's documentation.
-
-
-### Getting Started
-
-[The Only Video You Need to Get Started with Neovim](https://youtu.be/m8C0Cq9Uv9o)
-
-### FAQ
-
-* What should I do if I already have a pre-existing Neovim configuration?
-  * You should back it up and then delete all associated files.
-  * This includes your existing init.lua and the Neovim files in `~/.local`
-    which can be deleted with `rm -rf ~/.local/share/nvim/`
-* Can I keep my existing configuration in parallel to kickstart?
-  * Yes! You can use [NVIM_APPNAME](https://neovim.io/doc/user/starting.html#%24NVIM_APPNAME)`=nvim-NAME`
-    to maintain multiple configurations. For example, you can install the kickstart
-    configuration in `~/.config/nvim-kickstart` and create an alias:
-    ```
-    alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" nvim'
-    ```
-    When you run Neovim using `nvim-kickstart` alias it will use the alternative
-    config directory and the matching local directory
-    `~/.local/share/nvim-kickstart`. You can apply this approach to any Neovim
-    distribution that you would like to try out.
-* What if I want to "uninstall" this configuration:
-  * See [lazy.nvim uninstall](https://lazy.folke.io/usage#-uninstalling) information
-* Why is the kickstart `init.lua` a single file? Wouldn't it make sense to split it into multiple files?
-  * The main purpose of kickstart is to serve as a teaching tool and a reference
-    configuration that someone can easily use to `git clone` as a basis for their own.
-    As you progress in learning Neovim and Lua, you might consider splitting `init.lua`
-    into smaller parts. A fork of kickstart that does this while maintaining the
-    same functionality is available here:
-    * [kickstart-modular.nvim](https://github.com/dam9000/kickstart-modular.nvim)
-  * Discussions on this topic can be found here:
-    * [Restructure the configuration](https://github.com/nvim-lua/kickstart.nvim/issues/218)
-    * [Reorganize init.lua into a multi-file setup](https://github.com/nvim-lua/kickstart.nvim/pull/473)
-
-### Install Recipes
-
-Below you can find OS specific install instructions for Neovim and dependencies.
-
-After installing all the dependencies continue with the [Install Kickstart](#Install-Kickstart) step.
-
-#### Windows Installation
-
-<details><summary>Windows with Microsoft C++ Build Tools and CMake</summary>
-Installation may require installing build tools and updating the run command for `telescope-fzf-native`
-
-See `telescope-fzf-native` documentation for [more details](https://github.com/nvim-telescope/telescope-fzf-native.nvim#installation)
-
-This requires:
-
-- Install CMake and the Microsoft C++ Build Tools on Windows
-
-```lua
-{'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
-```
-</details>
-<details><summary>Windows with gcc/make using chocolatey</summary>
-Alternatively, one can install gcc and make which don't require changing the config,
-the easiest way is to use choco:
-
-1. install [chocolatey](https://chocolatey.org/install)
-either follow the instructions on the page or use winget,
-run in cmd as **admin**:
-```
-winget install --accept-source-agreements chocolatey.chocolatey
-```
-
-2. install all requirements using choco, exit the previous cmd and
-open a new one so that choco path is set, and run in cmd as **admin**:
-```
-choco install -y neovim git ripgrep wget fd unzip gzip mingw make
-```
-</details>
-<details><summary>WSL (Windows Subsystem for Linux)</summary>
-
-```
-wsl --install
-wsl
+# 2. Verify installation (Optional)
+nvim --version
+🐧 Ubuntu / Debian (Apt)Ubuntu's default repositories often contain outdated versions of Neovim. We must use the PPA to get the stable release required for this config.# 1. Add Neovim Unstable PPA (Recommended for latest stable features)
+# This ensures we get Neovim 0.9+ rather than the old version in apt defaults.
 sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
-sudo apt install make gcc ripgrep unzip git xclip neovim
-```
-</details>
 
-#### Linux Install
-<details><summary>Ubuntu Install Steps</summary>
+# 2. Install Neovim and tools
+# Note: 'fd' is package named 'fd-find' on Ubuntu/Debian to avoid name collision.
+# 'xclip': Required for system clipboard integration on X11
+sudo apt install -y neovim git make gcc unzip ripgrep fd-find xclip
 
-```
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
-sudo apt update
-sudo apt install make gcc ripgrep unzip git xclip neovim
-```
-</details>
-<details><summary>Debian Install Steps</summary>
+# 3. Install JetBrains Mono Nerd Font manually
+# Since standard repos don't always have the latest Nerd Fonts, we fetch it directly.
+mkdir -p ~/.local/share/fonts
+cd ~/.local/share/fonts && curl -fLO [https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz](https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz)
 
-```
-sudo apt update
-sudo apt install make gcc ripgrep unzip git xclip curl
+# Extract and clean up
+tar xf JetBrainsMono.tar.xz
+rm JetBrainsMono.tar.xz
 
-# Now we install nvim
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-sudo rm -rf /opt/nvim-linux-x86_64
-sudo mkdir -p /opt/nvim-linux-x86_64
-sudo chmod a+rX /opt/nvim-linux-x86_64
-sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+# Refresh font cache so the system sees the new font
+fc-cache -fv
 
-# make it available in /usr/local/bin, distro installs to /usr/bin
-sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/
-```
-</details>
-<details><summary>Fedora Install Steps</summary>
+# 4. Verify installation (Optional)
+nvim --version
+2. Clone ConfigurationWe will clone the repository to the standard Neovim configuration path (~/.config/nvim). The command below safely backs up any existing configuration to prevent data loss.# Optional: Backup existing config if you have one
+# If a folder exists at these paths, it is renamed to .bak
+mv "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim.bak 2>/dev/null
+mv "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim.bak 2>/dev/null
 
-```
-sudo dnf install -y gcc make git ripgrep fd-find unzip neovim
-```
-</details>
+# Clone the 'hanoch' branch
+# We specifically target the 'hanoch' branch where your personal customizations live.
+git clone -b hanoch git@github.com:Heniland/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+3. Post-Install SetupConfigure Terminal Font:Open your terminal emulator's preferences (iTerm2, Alacritty, Kitty, GNOME Terminal, etc.).Set the font family to "JetBrainsMono Nerd Font" (or "JetBrainsMono NF").Why? Without this, status bars and file icons will appear as broken rectangle characters.First Launch & Plugin Sync:Run nvim in your terminal.Wait: You will see a window pop up showing lazy.nvim installing plugins.Allow the installation to finish. If any errors occur regarding "compilation," simply restart Neovim, and the build tools installed earlier will handle it.Health Check (Optional):Run :checkhealth inside Neovim to verify that the editor can find external tools (like npm, node, python, git, etc.).Maintenance & WorkflowUpdating Your ConfigSince this is a git repository, updating is as simple as pulling the latest changes from GitHub.cd "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
 
-<details><summary>Arch Install Steps</summary>
+# Pull the latest commits from your personal branch
+git pull origin hanoch
+After pulling updates, it is often good practice to run :Lazy sync inside Neovim to update plugins.Merging Upstream UpdatesTo keep this fork in sync with the original kickstart.nvim (to get bug fixes or new improvements from the community), follow this workflow:# 1. Add the upstream remote (only needs to be done once)
+git remote add upstream [https://github.com/nvim-lua/kickstart.nvim.git](https://github.com/nvim-lua/kickstart.nvim.git)
 
-```
-sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
-```
-</details>
+# 2. Fetch the latest upstream changes
+git fetch upstream
 
+# 3. Merge upstream/master into your current branch
+git merge upstream/master
+Note: You may encounter merge conflicts if you have heavily modified sections that upstream also changed. Resolve these in the editor using the diff markers.FAQ & TroubleshootingWhat is init.lua?This is the heart of the configuration. Unlike other distributions that split settings into dozens of files, kickstart keeps everything in init.lua (mostly). This makes it easier to "Ctrl+F" to find keymaps, options, or plugin settings. Read this file! It is heavily commented to serve as a tutorial.How do I install Language Servers (LSP)?We use mason.nvim to manage external tooling.Open Neovim and type :Mason.Use Ctrl+f to search for a language (e.g., python, typescript, gopls).Press i to install.Automation: You can also add server names to the servers table in init.lua to have them automatically installed on startup.Node/Go Requirements: Note that Mason installs the servers, but some servers (like ts_ls) require npm to be installed on your system OS first.Why do icons look weird/broken?This is almost always a font issue.Ensure you installed JetBrains Mono Nerd Font (Step 1).Ensure your Terminal is actually using that font.If using a different Nerd Font, update the font name in your terminal settings.Why specific OS instructions?Kickstart is more than just Lua files; it relies on system-level binaries.Ripgrep (rg): Used by Telescope for grep searching across your project. It is significantly faster than standard grep.C Compiler (gcc): Required by TreeSitter to compile language parsers (syntax highlighting) and by Telescope FZF Native for sorting algorithms.Clipboard: On Linux, tools like xclip or wl-copy allow Neovim to share the system clipboard ("+y).
