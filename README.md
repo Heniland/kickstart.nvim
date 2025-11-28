@@ -48,7 +48,7 @@ Arch Linux provides the latest packages by default, making the setup very clean.
 #   'base-devel'             : Includes gcc, make, and other build essentials  
 #   'nodejs', 'npm', 'go'    : Runtimes for LSP
 #   'ttf-jetbrains-mono-nerd': The official Arch package for the font  
-sudo pacman -S --needed --noconfirm neovim git base-devel unzip ripgrep fd ttf-jetbrains-mono-nerd nodejs npm go
+sudo pacman -S --needed --noconfirm neovim git base-devel unzip ripgrep fd ttf-jetbrains-mono-nerd nodejs npm go composer php julia
 
 # 2. Verify installation (Optional)  
 nvim --version
@@ -110,6 +110,24 @@ git clone -b hanoch git@github.com:Heniland/kickstart.nvim.git "${XDG_CONFIG_HOM
 3. **Health Check (Optional):**  
    * Run `:checkhealth` inside Neovim to verify that the editor can find external tools (like `npm`, `node`, `python`, `git`, etc.).
 
+## **Core Plugins and Features**
+
+This configuration is built upon a curated set of plugins to provide a modern development experience. Key features include:
+
+*   **Plugin Manager (`lazy.nvim`):** Fast, declarative plugin management.
+*   **File Explorer (`neo-tree.lua`):** A modern file explorer sidebar.
+*   **Fuzzy Finder (`telescope.lua`):** Find files, buffers, and text with a lightning-fast UI.
+*   **Autocompletion (`nvim-cmp`):** Intelligent code completion powered by LSP and snippets.
+*   **LSP (`mason.nvim` & `lspconfig.lua`):** Automatic installation and configuration of language servers for diagnostics, code actions, and more.
+*   **Formatting & Linting (`conform.lua` & `linting.lua`):** Keep your code clean and consistent with automatic formatting on save and real-time linting.
+*   **Git Integration (`gitsigns.lua`):** View git diffs and hunks directly in the sign column.
+*   **Keymap Helper (`which-key.lua`):** A pop-up that displays available keybindings after a delay.
+
+## **Keymaps**
+
+For a complete list of all keymaps configured in this project, please refer to the [KEYMAPS.md](KEYMAPS.md) file.
+
+
 ## **Maintenance & Workflow**
 
 ### **Updating Your Config**
@@ -141,7 +159,11 @@ git merge upstream/master
 ## **FAQ & Troubleshooting**
 
 * What is `init.lua`?  
-  This is the heart of the configuration. Unlike other distributions that split settings into dozens of files, `kickstart` keeps everything in `init.lua` (mostly). This makes it easier to "Ctrl+F" to find keymaps, options, or plugin settings. Read this file\! It is heavily commented to serve as a tutorial.  
+  This is the main entry point of the configuration. It loads all other components, including options, keymaps, and plugins. While the original `kickstart.nvim` keeps most settings in a single file, this configuration takes a modular approach, splitting logic into dedicated files within the `lua/` directory. This makes the codebase cleaner and easier to navigate.
+  * `lua/options.lua`: Core editor settings.
+  * `lua/keymaps.lua`: Global and plugin-specific keybindings.
+  * `lua/lazy-plugins.lua`: Plugin management with `lazy.nvim`.
+  * `lua/custom/plugins/`: Individual plugin configurations.  
 * How do I install Language Servers (LSP)?  
   We use `mason.nvim` to manage external tooling.  
   1. Open Neovim and type `:Mason`.  
