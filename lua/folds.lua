@@ -8,10 +8,10 @@ vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 
 local function close_all_folds()
-  vim.api.nvim_exec2('%foldc!', { output = false })
+  vim.api.nvim_exec2('%foldclose!', { output = false })
 end
 local function open_all_folds()
-  vim.api.nvim_exec2('%foldo!', { output = false })
+  vim.api.nvim_exec2('%foldopen!', { output = false })
 end
 
 vim.keymap.set('n', '<leader>zc', close_all_folds, { desc = '[c]lose all folds' })
